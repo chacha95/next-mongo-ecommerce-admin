@@ -23,7 +23,6 @@ export default function DeleteProductPage() {
   async function deleteProduct() {
     await axios.delete("/api/products?id=" + id);
 
-    console.log("?");
     goBack();
   }
 

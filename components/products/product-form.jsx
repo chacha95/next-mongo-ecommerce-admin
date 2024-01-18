@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { UploadIcon } from "../icons";
 import Spinner from "../spinner";
 
+import { ReactSortable } from "react-sortablejs";
+
 export default function ProductForm(props) {
   const {
     _id,
@@ -58,6 +60,10 @@ export default function ProductForm(props) {
     }
   }
 
+  function updateImagesOrder(images) {
+    setImages(images);
+  }
+
   return (
     <form onSubmit={saveProduct}>
       <h1 className="text-white mb-4 text-lg">New Product</h1>
@@ -70,12 +76,18 @@ export default function ProductForm(props) {
       />
       <label>Photos</label>
       <div className="mb-2 flex flex-wrap gap-2">
-        {!!images?.length &&
-          images.map((link) => (
-            <div key={link} className="h-24 max-h-full">
-              <img src={link} alt="" className="rounded-lg" />
-            </div>
-          ))}
+        <ReactSortable
+          list={images}
+          setList={updateImagesOrder}
+          className="flex flex-wrap gap-1"
+        >
+          {!!images?.length &&
+            images.map((link) => (
+              <div key={link} className="h-24 max-h-full">
+                <img key={link} src={link} alt="" className="rounded-lg" />
+              </div>
+            ))}
+        </ReactSortable>
         {isUploading && (
           <div className="h-24">
             <Spinner />
