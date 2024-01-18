@@ -1,12 +1,11 @@
-# next-mongo-ecommerce
+# next-mongo-ecommerce-admin
 
 ## Getting Started
 
-```bash
-    pnpm i
+```sh
+$ pnpm i
 
-    cp .env.example .env
+$ cp .env.example .env
 
-    pnpm dev
+$ pnpm dev
 ```
-# next-mongo-ecommerce-admin
