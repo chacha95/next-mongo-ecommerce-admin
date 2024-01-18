@@ -7,11 +7,12 @@ export default async function handle(req, res) {
   await mongooseConnect();
   if (method === "POST") {
     try {
-      const { title, description, price } = req.body;
+      const { title, description, price, images } = req.body;
       const productDoc = await Product.create({
         title,
         description,
         price,
+        images,
       });
       res.json(productDoc);
     } catch (error) {
@@ -35,9 +36,12 @@ export default async function handle(req, res) {
 
   if (method === "PUT") {
     try {
-      const { title, description, price, _id } = req.body;
+      const { title, description, price, images, id } = req.body;
 
-      await Product.updateOne({ _id: _id }, { title, description, price });
+      await Product.updateOne(
+        { _id: id },
+        { title, description, price, images },
+      );
       res.json(true);
     } catch (error) {
       console.error("Error update product", error);
