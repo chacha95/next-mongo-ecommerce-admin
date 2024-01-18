@@ -6,12 +6,9 @@ export default function Home() {
 
   if (!session) {
     return (
-      <div className="bg-blue-900 w-screen h-screen flex items-center">
+      <div className="bg-white w-screen h-screen flex items-center">
         <div className="text-center w-full">
-          <button
-            className="bg-white p-2 px-4 rounded-lg"
-            onClick={() => signIn("google")}
-          >
+          <button className="btn-primary" onClick={() => signIn("google")}>
             Sign With Google
           </button>
         </div>
@@ -21,8 +18,8 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-blue-900 flex-grow px-4 rounded-md py-1">
-        logged in {session.user.email}
+      <div className="min-h-screen flex-grow px-4 rounded-md py-1">
+        <button className="btn-primary">logged in {session.user.email}</button>
       </div>
     </Layout>
   );
