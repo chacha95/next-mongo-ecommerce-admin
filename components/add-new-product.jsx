@@ -1,13 +1,23 @@
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function AddNewProductForm() {
+  const router = useRouter();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
 
-  async function createProduct() {
+  async function createProduct(e) {
+    e.preventDefault();
+    const data = {
+      title,
+      description,
+      price,
+    };
     await axios.post("/api/products", data);
+    router.push("/products");
   }
 
   return (
