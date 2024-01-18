@@ -30,15 +30,13 @@ export default function NewProduct() {
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
         <label>Price (in USD)</label>
-        <input
-          type="number"
+        <textarea
           placeholder="price"
+          type="number"
           value={price}
           onChange={(e) => setPrice((e) => e.target.value)}
         />
-        <button className="text-white bg-green-600 px-4 rounded-md py-1">
-          Save
-        </button>
+        <button className="btn-primary">Save</button>
       </form>
     </Layout>
   );

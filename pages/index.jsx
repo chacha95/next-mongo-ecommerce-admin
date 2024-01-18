@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-blue-900 flex-grow mt-2 mr-2 mb-2 rounded-lg p-2">
+      <div className="min-h-screen bg-blue-900 flex-grow px-4 rounded-md py-1">
         logged in {session.user.email}
       </div>
     </Layout>
