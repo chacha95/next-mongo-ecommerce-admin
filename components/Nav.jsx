@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import Logo from "@/components/Logo";
+import AdminLogo from "./icons/admin-logo";
 
 export default function Nav({ show }) {
   const inactiveLink = "flex gap-1 p-1";
@@ -22,7 +22,7 @@ export default function Nav({ show }) {
       }
     >
       <div className="mb-4 mr-4">
-        <Logo />
+        <AdminLogo />
       </div>
       <nav className="flex flex-col gap-2">
         <Link

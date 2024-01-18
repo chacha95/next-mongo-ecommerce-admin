@@ -1,7 +1,9 @@
 import { useSession, signIn, signOut } from "next-auth/react";
-import Nav from "@/components/Nav";
 import { useState } from "react";
-import Logo from "@/components/Logo";
+
+import Nav from "@/components/nav";
+// import AdminLogoIcon from "@/components/icons";
+import AdminLogo from "./icons/admin-logo";
 
 export default function Layout({ children }) {
   const [showNav, setShowNav] = useState(false);
@@ -39,7 +41,7 @@ export default function Layout({ children }) {
           </svg>
         </button>
         <div className="flex grow justify-center mr-6">
-          <Logo />
+          <AdminLogo />
         </div>
       </div>
       <div className="flex">
