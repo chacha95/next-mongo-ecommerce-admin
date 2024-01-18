@@ -44,4 +44,18 @@ export default async function handle(req, res) {
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
+
+  if (method === "DELETE") {
+    try {
+      const id = req.query?.id;
+      if (id) {
+        await Product.deleteOne({ _id: id });
+        res.json;
+      }
+      res.json(true);
+    } catch (error) {
+      console.error("Error delete product", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
 }
