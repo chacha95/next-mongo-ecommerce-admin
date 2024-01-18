@@ -20,8 +20,10 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-blue-900 ">
-      logged in {session.user.email}
-    </div>
+    <Layout>
+      <div className="min-h-screen bg-blue-900 flex-grow mt-2 mr-2 mb-2 rounded-lg p-2">
+        logged in {session.user.email}
+      </div>
+    </Layout>
   );
 }
