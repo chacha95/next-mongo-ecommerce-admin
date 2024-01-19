@@ -7,7 +7,9 @@ import { Terminal } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { UploadIcon } from "@/components/icons";
 import Spinner from "@/components/spinner";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function ProductForm(props) {
   const {
@@ -83,16 +85,20 @@ export default function ProductForm(props) {
           <AlertDescription>Please fill in all the fields. </AlertDescription>
         </Alert>
       )}
+
       <h1 className="text-white mb-4 text-lg">New Product</h1>
-      <label>Product name</label>
-      <input
-        type="text"
-        placeholder="product name"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <Label htmlFor="text">Product name</Label>
+        <Input
+          type="text"
+          placeholder="product name"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+
       <label>Photos</label>
-      <div className="mb-2 flex flex-wrap gap-2">
+      <div className="mb-2 flex items-center flex-wrap gap-2">
         <ReactSortable
           list={images}
           setList={updateImagesOrder}
@@ -118,19 +124,26 @@ export default function ProductForm(props) {
         {!images?.length && <div>No Photos in this product</div>}
       </div>
 
-      <label>Description</label>
-      <textarea
-        placeholder="description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      ></textarea>
-      <label>Price (in USD)</label>
-      <input
-        type="number"
-        placeholder="price"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-      />
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <Label htmlFor="text">Description</Label>
+        <Input
+          type="text"
+          placeholder="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
+
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <Label htmlFor="text">Price</Label>
+        <Input
+          type="number"
+          placeholder="price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+      </div>
+
       <Button>Save</Button>
     </form>
   );
