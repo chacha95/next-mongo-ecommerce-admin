@@ -1,8 +1,9 @@
-import Layout from "@/components/layout";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Button } from "@/components/ui/button";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+import Layout from '@/components/layout';
+import { Button } from '@/components/ui/button';
 
 export default function DeleteProductPage() {
   const router = useRouter();
@@ -13,16 +14,16 @@ export default function DeleteProductPage() {
     if (!id) {
       return;
     }
-    axios.get("/api/products?id=" + id).then((response) => {
+    axios.get('/api/products?id=' + id).then((response) => {
       setProductInfo(response.data);
     });
   }, [id]);
   function goBack() {
-    router.push("/products");
+    router.push('/products');
   }
 
   async function deleteProduct() {
-    await axios.delete("/api/products?id=" + id);
+    await axios.delete('/api/products?id=' + id);
 
     goBack();
   }
@@ -32,7 +33,7 @@ export default function DeleteProductPage() {
       <h1 className="text-center">
         Do you really want to delete &nbsp;&quot;{productInfo?.title}&quot;?
       </h1>
-      <div className="flex gap-2 justify-center">
+      <div className="flex justify-center gap-2">
         <Button onClick={deleteProduct} className="btn-red">
           Yes
         </Button>

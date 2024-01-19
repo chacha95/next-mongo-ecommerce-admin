@@ -1,25 +1,25 @@
-import { useSession, signIn, signOut } from "next-auth/react";
-import { useState } from "react";
+import { useSession, signIn, signOut } from 'next-auth/react';
+import { useState } from 'react';
 
-import Nav from "@/components/nav";
-import { AdminLogoIcon, HamburgerIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import Nav from '@/components/nav';
+import { AdminLogoIcon, HamburgerIcon } from '@/components/icons';
+import { Button } from '@/components/ui/button';
 
 export default function Layout({ children }) {
   const [showNav, setShowNav] = useState(false);
   const { data: session } = useSession();
   if (!session) {
-    return <Button onClick={() => signIn("google")}>Login with Google</Button>;
+    return <Button onClick={() => signIn('google')}>Login with Google</Button>;
   }
 
   return (
     <div className="bg-bgGray min-h-screen ">
-      <div className="block md:hidden items-center p-4">
+      <div className="block items-center p-4 md:hidden">
         <Button onClick={() => setShowNav(true)}>
           <HamburgerIcon />
         </Button>
 
-        <div className="flex grow justify-center mr-6">
+        <div className="mr-6 flex grow justify-center">
           <AdminLogoIcon />
         </div>
       </div>

@@ -1,13 +1,13 @@
-import { useState } from "react";
-import axios from "axios";
-import { ReactSortable } from "react-sortablejs";
-import { useRouter } from "next/router";
+import { useState } from 'react';
+import axios from 'axios';
+import { ReactSortable } from 'react-sortablejs';
+import { useRouter } from 'next/router';
 
-import { UploadIcon } from "@/components/icons";
-import Spinner from "@/components/spinner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { UploadIcon } from '@/components/icons';
+import Spinner from '@/components/spinner';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function ProductForm(props) {
   const {
@@ -15,14 +15,14 @@ export default function ProductForm(props) {
     title: existingTitle,
     description: existingDescription,
     price: existingPrice,
-    images: existingImages,
+    images: existingImages
   } = props;
 
   const router = useRouter();
 
-  const [title, setTitle] = useState(existingTitle || "");
-  const [description, setDescription] = useState(existingDescription || "");
-  const [price, setPrice] = useState(existingPrice || "");
+  const [title, setTitle] = useState(existingTitle || '');
+  const [description, setDescription] = useState(existingDescription || '');
+  const [price, setPrice] = useState(existingPrice || '');
   const [isUploading, setIsUploading] = useState(false);
   const [images, setImages] = useState(existingImages || []);
 
@@ -33,14 +33,14 @@ export default function ProductForm(props) {
       title,
       description,
       price,
-      images,
+      images
     };
     if (_id) {
-      await axios.put("/api/products", { ...data, _id });
-      router.push("/products");
+      await axios.put('/api/products', { ...data, _id });
+      router.push('/products');
     } else {
-      await axios.post("/api/products", data);
-      router.push("/products");
+      await axios.post('/api/products', data);
+      router.push('/products');
     }
   }
 
@@ -52,10 +52,10 @@ export default function ProductForm(props) {
       const data = new FormData();
 
       for (const file of files) {
-        data.append("file", file);
+        data.append('file', file);
       }
 
-      const res = await axios.post("/api/upload", data);
+      const res = await axios.post('/api/upload', data);
 
       setImages((oldImages) => {
         return [...oldImages, ...res.data.links];
@@ -70,7 +70,7 @@ export default function ProductForm(props) {
 
   return (
     <form onSubmit={saveProduct}>
-      <h1 className="text-white mb-4 text-lg">New Product</h1>
+      <h1 className="mb-4 text-lg text-white">New Product</h1>
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="text">Product name</Label>
         <Input
@@ -82,13 +82,14 @@ export default function ProductForm(props) {
         />
       </div>
 
+      <label>Category</label>
+      <select>
+        <option value="">Uncategorized</option>
+      </select>
+
       <label>Photos</label>
-      <div className="mb-2 flex items-center flex-wrap gap-2">
-        <ReactSortable
-          list={images}
-          setList={updateImagesOrder}
-          className="flex flex-wrap gap-1"
-        >
+      <div className="mb-2 flex flex-wrap items-center gap-2">
+        <ReactSortable list={images} setList={updateImagesOrder} className="flex flex-wrap gap-1">
           {!!images?.length &&
             images.map((link) => (
               <div key={link} className="h-24 max-h-full">
@@ -101,15 +102,10 @@ export default function ProductForm(props) {
             <Spinner />
           </div>
         )}
-        <label className="w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-primary rounded-sm bg-white shadow-sm border border-primary">
+        <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-sm border border-primary bg-white text-center text-sm text-primary shadow-sm">
           <UploadIcon />
           <div>Upload image</div>
-          <input
-            type="file"
-            onChange={uploadImages}
-            className="hidden"
-            required={true}
-          />
+          <input type="file" onChange={uploadImages} className="hidden" required={true} />
         </label>
         {!images?.length && <div>No Photos in this product</div>}
       </div>

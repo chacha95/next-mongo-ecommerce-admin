@@ -1,43 +1,40 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { signOut } from "next-auth/react";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { signOut } from 'next-auth/react';
 
-import { AdminLogoIcon, LogoutIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { AdminLogoIcon, LogoutIcon } from '@/components/icons';
+import { Button } from '@/components/ui/button';
 
 export default function Nav({ show }) {
-  const inactiveLink = "flex gap-1 p-1";
-  const activeLink = inactiveLink + " bg-highlight text-black rounded-sm";
-  const inactiveIcon = "w-6 h-6";
-  const activeIcon = inactiveIcon + " text-primary";
+  const inactiveLink = 'flex gap-1 p-1';
+  const activeLink = inactiveLink + ' bg-highlight text-black rounded-sm';
+  const inactiveIcon = 'w-6 h-6';
+  const activeIcon = inactiveIcon + ' text-primary';
   const router = useRouter();
   const { pathname } = router;
   async function logout() {
-    await router.push("/");
+    await router.push('/');
     await signOut();
   }
   return (
     <aside
       className={
-        (show ? "left-0" : "-left-full") +
-        " top-0 text-gray-500 p-4 fixed w-full bg-bgGray h-full md:static md:w-auto transition-all"
+        (show ? 'left-0' : '-left-full') +
+        ' bg-bgGray fixed top-0 h-full w-full p-4 text-gray-500 transition-all md:static md:w-auto'
       }
     >
       <div className="mb-4 mr-4">
         <AdminLogoIcon />
       </div>
       <nav className="flex flex-col gap-2">
-        <Link
-          href={"/"}
-          className={pathname === "/" ? activeLink : inactiveLink}
-        >
+        <Link href={'/'} className={pathname === '/' ? activeLink : inactiveLink}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className={pathname === "/" ? activeIcon : inactiveIcon}
+            className={pathname === '/' ? activeIcon : inactiveIcon}
           >
             <path
               strokeLinecap="round"
@@ -48,8 +45,8 @@ export default function Nav({ show }) {
           Dashboard
         </Link>
         <Link
-          href={"/products"}
-          className={pathname.includes("/products") ? activeLink : inactiveLink}
+          href={'/products'}
+          className={pathname.includes('/products') ? activeLink : inactiveLink}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -57,9 +54,7 @@ export default function Nav({ show }) {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className={
-              pathname.includes("/products") ? activeIcon : inactiveIcon
-            }
+            className={pathname.includes('/products') ? activeIcon : inactiveIcon}
           >
             <path
               strokeLinecap="round"
@@ -70,10 +65,8 @@ export default function Nav({ show }) {
           Products
         </Link>
         <Link
-          href={"/categories"}
-          className={
-            pathname.includes("/categories") ? activeLink : inactiveLink
-          }
+          href={'/categories'}
+          className={pathname.includes('/categories') ? activeLink : inactiveLink}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -81,9 +74,7 @@ export default function Nav({ show }) {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className={
-              pathname.includes("/categories") ? activeIcon : inactiveIcon
-            }
+            className={pathname.includes('/categories') ? activeIcon : inactiveIcon}
           >
             <path
               strokeLinecap="round"
@@ -93,17 +84,14 @@ export default function Nav({ show }) {
           </svg>
           Categories
         </Link>
-        <Link
-          href={"/orders"}
-          className={pathname.includes("/orders") ? activeLink : inactiveLink}
-        >
+        <Link href={'/orders'} className={pathname.includes('/orders') ? activeLink : inactiveLink}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className={pathname.includes("/orders") ? activeIcon : inactiveIcon}
+            className={pathname.includes('/orders') ? activeIcon : inactiveIcon}
           >
             <path
               strokeLinecap="round"
@@ -114,8 +102,8 @@ export default function Nav({ show }) {
           Orders
         </Link>
         <Link
-          href={"/settings"}
-          className={pathname.includes("/settings") ? activeLink : inactiveLink}
+          href={'/settings'}
+          className={pathname.includes('/settings') ? activeLink : inactiveLink}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -123,9 +111,7 @@ export default function Nav({ show }) {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className={
-              pathname.includes("/settings") ? activeIcon : inactiveIcon
-            }
+            className={pathname.includes('/settings') ? activeIcon : inactiveIcon}
           >
             <path
               strokeLinecap="round"

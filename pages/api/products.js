@@ -1,27 +1,27 @@
-import { Product } from "@/models/product";
-import { mongooseConnect } from "@/lib/mongoose";
+import { Product } from '@/models/product';
+import { mongooseConnect } from '@/lib/mongoose';
 
 export default async function handle(req, res) {
   const { method } = req;
 
   await mongooseConnect();
-  if (method === "POST") {
+  if (method === 'POST') {
     try {
       const { title, description, price, images } = req.body;
       const productDoc = await Product.create({
         title,
         description,
         price,
-        images,
+        images
       });
       res.json(productDoc);
     } catch (error) {
-      console.error("Error creating product:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+      console.error('Error creating product:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 
-  if (method === "GET") {
+  if (method === 'GET') {
     try {
       if (req.query?.id) {
         res.json(await Product.findOne({ _id: req.query.id }));
@@ -29,27 +29,24 @@ export default async function handle(req, res) {
         res.json(await Product.find());
       }
     } catch (error) {
-      console.error("Error fetching products:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+      console.error('Error fetching products:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 
-  if (method === "PUT") {
+  if (method === 'PUT') {
     try {
       const { title, description, price, images, id } = req.body;
 
-      await Product.updateOne(
-        { _id: id },
-        { title, description, price, images },
-      );
+      await Product.updateOne({ _id: id }, { title, description, price, images });
       res.json(true);
     } catch (error) {
-      console.error("Error update product", error);
-      res.status(500).json({ error: "Internal Server Error" });
+      console.error('Error update product', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 
-  if (method === "DELETE") {
+  if (method === 'DELETE') {
     try {
       const id = req.query?.id;
       if (id) {
@@ -58,8 +55,8 @@ export default async function handle(req, res) {
       }
       res.json(true);
     } catch (error) {
-      console.error("Error delete product", error);
-      res.status(500).json({ error: "Internal Server Error" });
+      console.error('Error delete product', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 }

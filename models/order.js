@@ -1,4 +1,4 @@
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema } from 'mongoose';
 
 const OrderSchema = new Schema(
   {
@@ -9,11 +9,11 @@ const OrderSchema = new Schema(
     postalCode: String,
     streetAddress: String,
     country: String,
-    paid: Boolean,
+    paid: Boolean
   },
   {
-    timestamps: true,
-  },
+    timestamps: true
+  }
 );
 
-export const Order = models?.Order || model("Order", OrderSchema);
+export const Order = models?.Order || model('Order', OrderSchema);
