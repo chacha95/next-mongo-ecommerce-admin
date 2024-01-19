@@ -1,10 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/router";
-import { UploadIcon } from "../icons";
-import Spinner from "../spinner";
-
 import { ReactSortable } from "react-sortablejs";
+import { useRouter } from "next/router";
+import { Terminal } from "lucide-react";
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { UploadIcon } from "@/components/icons";
+import Spinner from "@/components/spinner";
 
 export default function ProductForm(props) {
   const {
@@ -22,14 +24,14 @@ export default function ProductForm(props) {
   const [price, setPrice] = useState(existingPrice || "");
   const [isUploading, setIsUploading] = useState(false);
   const [images, setImages] = useState(existingImages || []);
+  const [showAlert, setShowAlert] = useState(false);
 
   async function saveProduct(e) {
     e.preventDefault();
 
-    // 유효성 검사 추가
     if (!title || !description || !price || images.length === 0) {
-      alert("Please fill in all required fields.");
-      return;
+      setShowAlert(true);
+      return null;
     }
 
     const data = {
@@ -73,6 +75,13 @@ export default function ProductForm(props) {
 
   return (
     <form onSubmit={saveProduct}>
+      {showAlert && (
+        <Alert className="text-red-500">
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>Alert!</AlertTitle>
+          <AlertDescription>Please fill in all the fields. </AlertDescription>
+        </Alert>
+      )}
       <h1 className="text-white mb-4 text-lg">New Product</h1>
       <label>Product name</label>
       <input
