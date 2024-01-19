@@ -1,5 +1,7 @@
-import Layout from "@/components/layout";
 import { useSession, signIn, signOut } from "next-auth/react";
+
+import Layout from "@/components/layout";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -8,9 +10,7 @@ export default function Home() {
     return (
       <div className="bg-white w-screen h-screen flex items-center">
         <div className="text-center w-full">
-          <button className="btn-primary" onClick={() => signIn("google")}>
-            Sign With Google
-          </button>
+          <Button onClick={() => signIn("google")}>Sign With Google</Button>
         </div>
       </div>
     );
@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <Layout>
       <div className="min-h-screen flex-grow px-4 rounded-md py-1">
-        <button className="btn-primary">logged in {session.user.email}</button>
+        <Button>logged in {session.user.email}</Button>
       </div>
     </Layout>
   );

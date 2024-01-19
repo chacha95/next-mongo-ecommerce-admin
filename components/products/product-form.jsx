@@ -7,6 +7,7 @@ import { Terminal } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { UploadIcon } from "@/components/icons";
 import Spinner from "@/components/spinner";
+import { Button } from "../ui/button";
 
 export default function ProductForm(props) {
   const {
@@ -130,7 +131,7 @@ export default function ProductForm(props) {
         value={price}
         onChange={(e) => setPrice(e.target.value)}
       />
-      <button className="btn-primary">Save</button>
+      <Button>Save</Button>
     </form>
   );
 }

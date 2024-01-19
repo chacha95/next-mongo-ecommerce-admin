@@ -2,6 +2,7 @@ import Layout from "@/components/layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Button } from "@/components/ui/button";
 
 export default function DeleteProductPage() {
   const router = useRouter();
@@ -32,12 +33,12 @@ export default function DeleteProductPage() {
         Do you really want to delete &nbsp;&quot;{productInfo?.title}&quot;?
       </h1>
       <div className="flex gap-2 justify-center">
-        <button onClick={deleteProduct} className="btn-red">
+        <Button onClick={deleteProduct} className="btn-red">
           Yes
-        </button>
-        <button className="btn-default" onClick={goBack}>
+        </Button>
+        <Button className="bg-secondary text-black" onClick={goBack}>
           NO
-        </button>
+        </Button>
       </div>
     </Layout>
   );
