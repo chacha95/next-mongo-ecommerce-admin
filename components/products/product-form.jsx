@@ -104,7 +104,12 @@ export default function ProductForm(props) {
         <label className="w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-primary rounded-sm bg-white shadow-sm border border-primary">
           <UploadIcon />
           <div>Upload image</div>
-          <input type="file" onChange={uploadImages} className="hidden" />
+          <input
+            type="file"
+            onChange={uploadImages}
+            className="hidden"
+            required={true}
+          />
         </label>
         {!images?.length && <div>No Photos in this product</div>}
       </div>
