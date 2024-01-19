@@ -25,6 +25,13 @@ export default function ProductForm(props) {
 
   async function saveProduct(e) {
     e.preventDefault();
+
+    // 유효성 검사 추가
+    if (!title || !description || !price || images.length === 0) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
     const data = {
       title,
       description,
