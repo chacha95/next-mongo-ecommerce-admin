@@ -2,9 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { ReactSortable } from "react-sortablejs";
 import { useRouter } from "next/router";
-import { Terminal } from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { UploadIcon } from "@/components/icons";
 import Spinner from "@/components/spinner";
 import { Button } from "@/components/ui/button";
@@ -27,15 +25,9 @@ export default function ProductForm(props) {
   const [price, setPrice] = useState(existingPrice || "");
   const [isUploading, setIsUploading] = useState(false);
   const [images, setImages] = useState(existingImages || []);
-  const [showAlert, setShowAlert] = useState(false);
 
   async function saveProduct(e) {
     e.preventDefault();
-
-    if (!title || !description || !price || images.length === 0) {
-      setShowAlert(true);
-      return null;
-    }
 
     const data = {
       title,
@@ -78,14 +70,6 @@ export default function ProductForm(props) {
 
   return (
     <form onSubmit={saveProduct}>
-      {showAlert && (
-        <Alert className="text-red-500">
-          <Terminal className="h-4 w-4" />
-          <AlertTitle>Alert!</AlertTitle>
-          <AlertDescription>Please fill in all the fields. </AlertDescription>
-        </Alert>
-      )}
-
       <h1 className="text-white mb-4 text-lg">New Product</h1>
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="text">Product name</Label>
@@ -94,6 +78,7 @@ export default function ProductForm(props) {
           placeholder="product name"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required={true}
         />
       </div>
 
@@ -131,6 +116,7 @@ export default function ProductForm(props) {
           placeholder="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          required={true}
         />
       </div>
 
@@ -141,6 +127,7 @@ export default function ProductForm(props) {
           placeholder="price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
+          required={true}
         />
       </div>
 
