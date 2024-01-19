@@ -1,5 +1,6 @@
 import { mongooseConnect } from '@/lib/mongoose';
 import { Category } from '@/models/category';
+import { Product } from '@/models/product';
 
 export default async function handle(req, res) {
   const { method } = req;
@@ -15,6 +16,12 @@ export default async function handle(req, res) {
       name
     });
     res.json(categoryDoc);
+  }
+
+  if (method === 'PUT') {
+    const { title, description, price, images, category, _id } = req.body;
+    await Product.updateOne({ _id: _id }, { title, description, price, images, category });
+    res.json(true);
   }
 
   if (method === 'DELETE') {

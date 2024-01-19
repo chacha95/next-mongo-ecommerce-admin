@@ -12,10 +12,12 @@ export default function Nav({ show }) {
   const activeIcon = inactiveIcon + ' text-primary';
   const router = useRouter();
   const { pathname } = router;
+
   async function logout() {
     await router.push('/');
     await signOut();
   }
+
   return (
     <aside
       className={

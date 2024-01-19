@@ -82,7 +82,7 @@ img {
 input,
 textarea,
 select {
-  @apply border border-gray-200 rounded-sm w-full py-2 px-3;
+  @apply w-full rounded-sm border border-gray-200 px-3 py-2;
   @apply mb-2;
 }
 
@@ -93,32 +93,34 @@ select:focus {
 }
 
 h1 {
-  @apply text-gray-800 mb-4 text-xl;
+  @apply mb-4 text-xl text-gray-800;
 }
 
 label {
-  @apply text-gray-600 text-sm;
+  @apply text-sm text-gray-600;
 }
 
 .btn-primary {
-  @apply bg-primary text-white px-4 py-1 rounded-md shadow-sm;
+  @apply rounded-md bg-primary px-4 py-1 text-white shadow-sm;
 }
 
 .btn-basic {
-  @apply px-4 py-1 rounded-md;
+  @apply rounded-md px-4 py-1;
 }
 
 .btn-red {
-  @apply bg-red-200 text-red-600 px-4 py-1 rounded-sm shadow-sm;
+  --background: 0 100% 90%; /* 연한 빨간색의 HSL 값 */
+  --foreground: 0 100% 50%; /* 빨간색의 HSL 값 */
+  @apply rounded-sm bg-background px-4 py-1 text-foreground shadow-sm;
 }
 
 table.basic {
-  @apply w-full bg-white rounded-sm shadow-md;
+  @apply w-full rounded-sm bg-white shadow-md;
 }
 
 table.basic thead tr td,
 table.basic thead tr th {
-  @apply text-sm text-gray-600 uppercase border-b border-gray-200 px-4 py-2;
+  @apply border-b border-gray-200 px-4 py-2 text-sm uppercase text-gray-600;
 }
 
 table.basic tr td {
@@ -126,5 +128,5 @@ table.basic tr td {
 }
 
 table.basic a {
-  @apply px-4 rounded-sm inline-flex mx-1 items-center gap-1 text-sm py-1;
+  @apply mx-1 inline-flex items-center gap-1 rounded-sm px-4 py-1 text-sm;
 }

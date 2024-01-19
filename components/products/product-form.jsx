@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ReactSortable } from 'react-sortablejs';
 import { useRouter } from 'next/router';
+import { v4 as uuid } from 'uuid';
 
 import { UploadIcon } from '@/components/icons';
 import Spinner from '@/components/spinner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 
 export default function ProductForm(props) {
   const {
@@ -15,7 +25,8 @@ export default function ProductForm(props) {
     title: existingTitle,
     description: existingDescription,
     price: existingPrice,
-    images: existingImages
+    images: existingImages,
+    category: assignedCategory
   } = props;
 
   const router = useRouter();
@@ -25,6 +36,8 @@ export default function ProductForm(props) {
   const [price, setPrice] = useState(existingPrice || '');
   const [isUploading, setIsUploading] = useState(false);
   const [images, setImages] = useState(existingImages || []);
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState(assignedCategory || '');
 
   async function saveProduct(e) {
     e.preventDefault();
@@ -33,7 +46,8 @@ export default function ProductForm(props) {
       title,
       description,
       price,
-      images
+      images,
+      category
     };
     if (_id) {
       await axios.put('/api/products', { ...data, _id });
@@ -68,10 +82,17 @@ export default function ProductForm(props) {
     setImages(images);
   }
 
+  useEffect(() => {
+    axios.get('/api/categories').then((result) => {
+      result.data;
+    });
+  });
+
   return (
     <form onSubmit={saveProduct}>
       <h1 className="mb-4 text-lg text-white">New Product</h1>
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+
+      <div className="mb-2 grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="text">Product name</Label>
         <Input
           type="text"
@@ -82,13 +103,47 @@ export default function ProductForm(props) {
         />
       </div>
 
-      <label>Category</label>
-      <select>
-        <option value="">Uncategorized</option>
-      </select>
+      <div className="mb-2 grid w-full max-w-sm items-center gap-1.5">
+        <Label htmlFor="text">Description</Label>
+        <Input
+          type="text"
+          placeholder="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required={true}
+        />
+      </div>
 
-      <label>Photos</label>
-      <div className="mb-2 flex flex-wrap items-center gap-2">
+      <div className="mb-2 grid w-full max-w-sm items-center gap-1.5">
+        <Label htmlFor="text">Price</Label>
+        <Input
+          type="number"
+          placeholder="price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          required={true}
+        />
+      </div>
+
+      <div className="mb-4 gap-1.5">
+        <Label htmlFor="text">Category</Label>
+        <Select>
+          <SelectTrigger className="w-full max-w-sm">
+            <SelectValue placeholder="" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {categories.map((c) => {
+                <SelectItem value="art" key={uuid()}>
+                  {c.name}
+                </SelectItem>;
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="mb-4 flex w-full max-w-sm flex-wrap items-center ">
         <ReactSortable list={images} setList={updateImagesOrder} className="flex flex-wrap gap-1">
           {!!images?.length &&
             images.map((link) => (
@@ -102,34 +157,12 @@ export default function ProductForm(props) {
             <Spinner />
           </div>
         )}
-        <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-sm border border-primary bg-white text-center text-sm text-primary shadow-sm">
+        <label className="mr-2 flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-sm border border-primary bg-white text-center text-sm text-primary shadow-sm">
           <UploadIcon />
           <div>Upload image</div>
           <input type="file" onChange={uploadImages} className="hidden" required={true} />
         </label>
         {!images?.length && <div>No Photos in this product</div>}
-      </div>
-
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="text">Description</Label>
-        <Input
-          type="text"
-          placeholder="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required={true}
-        />
-      </div>
-
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="text">Price</Label>
-        <Input
-          type="number"
-          placeholder="price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required={true}
-        />
       </div>
 
       <Button>Save</Button>
