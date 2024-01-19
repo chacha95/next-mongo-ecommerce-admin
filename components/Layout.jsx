@@ -2,8 +2,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 
 import Nav from "@/components/nav";
-// import AdminLogoIcon from "@/components/icons";
-import AdminLogo from "./icons/admin-logo";
+import AdminLogo from "@/components/icons/admin-logo";
 
 export default function Layout({ children }) {
   const [showNav, setShowNav] = useState(false);

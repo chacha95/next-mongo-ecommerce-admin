@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import Layout from "@/components/Layout";
+import Layout from "@/components/layout";
 import { EditIcon, TrashIcon } from "@/components/icons";
 
 export default function Products() {
