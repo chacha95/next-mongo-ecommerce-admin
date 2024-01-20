@@ -1,25 +1,15 @@
-import { v4 as uuid } from 'uuid';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { withSwal } from 'react-sweetalert2';
 
 import Layout from '@/components/layout';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table';
+import { EditIcon } from '@/components/icons';
 
 function Categories({ swal }) {
   const [editedCategory, setEditedCategory] = useState(null);
   const [name, setName] = useState('');
-  const [parentCategory, setParentCategory] = useState('');
   const [categories, setCategories] = useState([]);
   const [properties, setProperties] = useState([]);
 
@@ -47,7 +37,6 @@ function Categories({ swal }) {
   function editCategory(category) {
     setEditedCategory(category);
     setName(category.name);
-    setParentCategory(category.parent?._id);
     setProperties(
       category.properties.map(({ name, values }) => ({
         name,
@@ -57,7 +46,6 @@ function Categories({ swal }) {
   }
 
   function deleteCategory(category) {
-    console.log(category);
     swal
       .fire({
         title: 'Are you sure?',
@@ -77,55 +65,64 @@ function Categories({ swal }) {
       });
   }
 
+  function addProperty() {
+    setProperties((prev) => {
+      return [...prev, { name: '', values: '' }];
+    });
+  }
+
   return (
     <Layout>
       <h1>Categories</h1>
-      <form onSubmit={saveCategory}>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="text">New category name</Label>
-          <Input
+      <label>
+        {editedCategory ? `Edit category ${editedCategory.name}` : 'Create new category'}
+      </label>
+
+      <Label>New Category name</Label>
+      <form onSubmit={saveCategory} className="flex w-full max-w-sm gap-1">
+        <div className="flex gap-1">
+          <input
             type="text"
-            value={name}
-            placeholder="Category name"
+            placeholder={'Category name'}
             onChange={(e) => setName(e.target.value)}
-            required={true}
+            value={name}
           />
         </div>
         <Button type="submit">Save</Button>
       </form>
 
       <div className="w-full max-w-sm">
-        <Table>
-          <TableHeader key={uuid()}>
-            <TableRow key={uuid()}>
-              <TableHead key={uuid()} className="w-[300px]">
-                Category name
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody key={uuid()}>
+        <table className="basic mt-4">
+          <thead>
+            <tr>
+              <td>Category name</td>
+              <td>Parent Category</td>
+            </tr>
+          </thead>
+          <tbody>
             {categories.length > 0 &&
               categories.map((category) => (
-                <TableRow key={uuid()}>
-                  <TableCell className="font-medium" key={uuid()}>
-                    {category.name}
-                  </TableCell>
+                <tr key={category._id}>
+                  <td>{category.name}</td>
+                  <td>{category?.parent?.name}</td>
                   <td className="flex flex-row">
-                    <Button key={uuid()} onClick={() => editCategory(category)} className="m-2">
-                      Edit
-                    </Button>
-                    <Button
-                      key={uuid()}
-                      onClick={() => deleteCategory(category)}
-                      className="bg-danger text-danger-text m-2"
+                    <button
+                      onClick={() => editCategory(category)}
+                      className="mr-4 flex items-center"
                     >
+                      <div className="mr-1">
+                        <EditIcon />
+                      </div>
+                      <div>Edit</div>
+                    </button>
+                    <button onClick={() => deleteCategory(category)} className="btn-red">
                       Delete
-                    </Button>
+                    </button>
                   </td>
-                </TableRow>
+                </tr>
               ))}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       </div>
     </Layout>
   );
