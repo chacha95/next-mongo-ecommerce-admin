@@ -30,6 +30,8 @@ function Categories({ swal }) {
       name
     };
 
+    console.log(editedCategory);
+
     if (editedCategory) {
       await axios.put('/api/categories', data);
       setEditedCategory(undefined);
@@ -42,12 +44,12 @@ function Categories({ swal }) {
   function editCategory(category) {
     setEditedCategory(category);
     setName(category.name);
-    // setProperties(
-    //   category.properties.map(({ name, values }) => ({
-    //     name,
-    //     values: values.join(',')
-    //   }))
-    // );
+    setProperties(
+      category.properties.map(({ name, values }) => ({
+        name,
+        values: values.join(',')
+      }))
+    );
   }
 
   function deleteCategory(category) {
@@ -76,15 +78,44 @@ function Categories({ swal }) {
     });
   }
 
+  function handlePropertyNameChange(index, property, newName) {
+    setProperties((prev) => {
+      const properties = [...prev];
+      properties[index].name = newName;
+      return properties;
+    });
+  }
+
+  function handlePropertyValuesChange(index, property, newValues) {
+    setProperties((prev) => {
+      const properties = [...prev];
+      properties[index].values = newValues;
+      return properties;
+    });
+  }
+
+  function removeProperty(indexToRemove) {
+    setProperties((prev) => {
+      return [...prev].filter((p, pIndex) => {
+        return pIndex !== indexToRemove;
+      });
+    });
+  }
+
   return (
     <Layout>
       <h1>Categories</h1>
       <label>
-        {editedCategory ? `Edit category ${editedCategory.name}` : 'Create new category'}
+        {editedCategory
+          ? `Edit category ${editedCategory.name}`
+          : 'Create new category'}
       </label>
 
       <Label>New Category name</Label>
-      <form onSubmit={saveCategory} className="flex w-full max-w-sm gap-1">
+      <form
+        onSubmit={saveCategory}
+        className="flex w-full max-w-sm flex-col gap-1"
+      >
         <div className="flex gap-1">
           <input
             type="text"
@@ -93,6 +124,40 @@ function Categories({ swal }) {
             value={name}
           />
         </div>
+        <div className="mb-2">
+          <label className="block">Properties</label>
+          {properties.length > 0 &&
+            properties.map((property, index) => (
+              <div key={property.name} className="mb-2 flex gap-1">
+                <input
+                  type="text"
+                  value={property.name}
+                  className="mb-0"
+                  onChange={(ev) =>
+                    handlePropertyNameChange(index, property, ev.target.value)
+                  }
+                  placeholder="property name (example: color)"
+                />
+                <input
+                  type="text"
+                  className="mb-0"
+                  onChange={(ev) =>
+                    handlePropertyValuesChange(index, property, ev.target.value)
+                  }
+                  value={property.values}
+                  placeholder="values, comma separated"
+                />
+                <button
+                  onClick={() => removeProperty(index)}
+                  type="button"
+                  className="btn-red"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+        </div>
+        <Button onClick={addProperty}>Add new Property</Button>
         <Button type="submit">Save</Button>
       </form>
 
@@ -118,7 +183,10 @@ function Categories({ swal }) {
                       </div>
                       <div>Edit</div>
                     </button>
-                    <button onClick={() => deleteCategory(category)} className="btn-red">
+                    <button
+                      onClick={() => deleteCategory(category)}
+                      className="btn-red"
+                    >
                       Delete
                     </button>
                   </td>

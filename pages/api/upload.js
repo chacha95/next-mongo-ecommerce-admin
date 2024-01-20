@@ -2,9 +2,11 @@ import multiparty from 'multiparty';
 
 import { mongooseConnect } from '@/lib/mongoose';
 import { putObject, getPresignedUrl } from '@/lib/aws';
+import { isAdminRequest } from '@/pages/api/auth/[...nextauth]';
 
 export default async function handle(req, res) {
   await mongooseConnect();
+  await isAdminRequest(req, res);
 
   const form = new multiparty.Form();
   // eslint-disable-next-line no-undef

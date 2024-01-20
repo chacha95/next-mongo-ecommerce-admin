@@ -1,8 +1,10 @@
 import { Product } from '@/models/product';
 import { mongooseConnect } from '@/lib/mongoose';
+import { isAdminRequest } from '@/pages/api/auth/[...nextauth]';
 
 export default async function handle(req, res) {
   const { method } = req;
+  await isAdminRequest(req, res);
 
   await mongooseConnect();
   if (method === 'POST') {
@@ -39,7 +41,10 @@ export default async function handle(req, res) {
     try {
       const { title, description, price, images, category, id } = req.body;
 
-      await Product.updateOne({ _id: id }, { title, description, price, images, category });
+      await Product.updateOne(
+        { _id: id },
+        { title, description, price, images, category }
+      );
       res.json(true);
     } catch (error) {
       console.error('Error update product', error);

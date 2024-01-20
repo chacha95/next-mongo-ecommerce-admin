@@ -1,30 +1,32 @@
 import { mongooseConnect } from '@/lib/mongoose';
 import { Category } from '@/models/category';
-import { Product } from '@/models/product';
+import { isAdminRequest } from '@/pages/api/auth/[...nextauth]';
 
 export default async function handle(req, res) {
   const { method } = req;
   await mongooseConnect();
+  await isAdminRequest(req, res);
 
   if (method === 'GET') {
     res.json(await Category.find());
   }
 
   if (method === 'POST') {
-    const { name, parentCategory } = req.body;
+    const { name, properties } = req.body;
     const categoryDoc = await Category.create({
-      name: name
+      name,
+      properties
     });
-
     res.json(categoryDoc);
   }
 
   if (method === 'PUT') {
-    const { name, _id } = req.body;
+    const { name, properties, _id } = req.body;
     const categoryDoc = await Category.updateOne(
-      { _id: _id },
+      { _id },
       {
-        name
+        name,
+        properties
       }
     );
     res.json(categoryDoc);
