@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ReactSortable } from 'react-sortablejs';
-import { useRouter } from 'next/router';
 import { v4 as uuid } from 'uuid';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 import { UploadIcon } from '@/components/icons';
 import Spinner from '@/components/spinner';
@@ -14,7 +14,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
@@ -84,88 +83,114 @@ export default function ProductForm(props) {
 
   useEffect(() => {
     axios.get('/api/categories').then((result) => {
-      result.data;
+      console.log(result.data);
+      setCategories(result.data);
+      console.log(categories);
     });
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <form onSubmit={saveProduct}>
-      <h1 className="mb-4 text-lg text-white">New Product</h1>
+    <div className="w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+      <form onSubmit={saveProduct}>
+        <h1 className="mb-4 text-lg text-white">New Product</h1>
 
-      <div className="mb-2 grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="text">Product name</Label>
-        <Input
-          type="text"
-          placeholder="product name"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required={true}
-        />
-      </div>
+        {/* Product name */}
+        <div className="mb-2 grid items-center gap-1.5">
+          <Label htmlFor="text">Product name</Label>
+          <Input
+            type="text"
+            placeholder="product name"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required={true}
+          />
+        </div>
 
-      <div className="mb-2 grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="text">Description</Label>
-        <Input
-          type="text"
-          placeholder="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required={true}
-        />
-      </div>
+        {/* Description */}
+        <div className="mb-2 grid items-center gap-1.5">
+          <Label htmlFor="text">Description</Label>
+          <Input
+            type="text"
+            placeholder="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required={true}
+          />
+        </div>
 
-      <div className="mb-2 grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="text">Price</Label>
-        <Input
-          type="number"
-          placeholder="price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required={true}
-        />
-      </div>
+        {/* Price */}
+        <div className="mb-2 grid items-center gap-1.5">
+          <Label htmlFor="text">Price</Label>
+          <Input
+            type="number"
+            placeholder="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            required={true}
+          />
+        </div>
 
-      <div className="mb-4 gap-1.5">
-        <Label htmlFor="text">Category</Label>
-        <Select>
-          <SelectTrigger className="w-full max-w-sm">
-            <SelectValue placeholder="" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {categories.map((c) => {
-                <SelectItem value="art" key={uuid()}>
-                  {c.name}
-                </SelectItem>;
-              })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+        {/* Category */}
+        <div className="mb-4 gap-1.5">
+          <Label htmlFor="text">Category</Label>
+          <Select>
+            <SelectTrigger>
+              <SelectValue
+                placeholder="Uncategorized"
+                onChange={(e) => setCategory(e.target.value)}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {categories.map((c) => {
+                  <SelectItem key={uuid()}>{c.name}</SelectItem>;
+                })}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
 
-      <div className="mb-4 flex w-full max-w-sm flex-wrap items-center ">
-        <ReactSortable list={images} setList={updateImagesOrder} className="flex flex-wrap gap-1">
+        {/* upload image */}
+        <div className="mb-4 flex flex-wrap items-center ">
+          <label className="mb-2 mr-2 flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-sm border border-primary bg-white text-center text-sm text-primary shadow-sm">
+            <UploadIcon />
+            <div>Upload image</div>
+            <input
+              type="file"
+              onChange={uploadImages}
+              className="hidden"
+              required={true}
+            />
+          </label>
+
+          {/* <ReactSortable list={images} setList={updateImagesOrder} className="flex flex-wrap gap-1"> */}
           {!!images?.length &&
             images.map((link) => (
-              <div key={link} className="h-24 max-h-full">
-                <img key={link} src={link} alt="" className="rounded-lg" />
+              <div key={link} className="ml-2 h-24 max-h-full">
+                <Image
+                  key={link}
+                  width={100}
+                  height={100}
+                  src={link}
+                  alt=""
+                  className="rounded=lg"
+                />
+                {/* <img key={link} src={link} alt="" className="rounded-lg" /> */}
               </div>
             ))}
-        </ReactSortable>
-        {isUploading && (
-          <div className="h-24">
-            <Spinner />
-          </div>
-        )}
-        <label className="mr-2 flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-sm border border-primary bg-white text-center text-sm text-primary shadow-sm">
-          <UploadIcon />
-          <div>Upload image</div>
-          <input type="file" onChange={uploadImages} className="hidden" required={true} />
-        </label>
-        {!images?.length && <div>No Photos in this product</div>}
-      </div>
+          {/* </ReactSortable> */}
+          {isUploading && (
+            <div className="h-24">
+              <Spinner />
+            </div>
+          )}
+          {!images?.length && <div>No Photos in this product</div>}
+        </div>
 
-      <Button>Save</Button>
-    </form>
+        {/* Save */}
+        <Button>Save</Button>
+      </form>
+    </div>
   );
 }

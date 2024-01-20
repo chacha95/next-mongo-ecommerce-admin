@@ -9,7 +9,7 @@ import { EditIcon } from '@/components/icons';
 
 function Categories({ swal }) {
   const [editedCategory, setEditedCategory] = useState(null);
-  const [name, setName] = useState('');
+  const [name, setName] = useState(undefined);
   const [categories, setCategories] = useState([]);
   const [properties, setProperties] = useState([]);
 
@@ -30,19 +30,24 @@ function Categories({ swal }) {
       name
     };
 
-    await axios.post('/api/categories', data);
-    setName('');
+    if (editedCategory) {
+      await axios.put('/api/categories', data);
+      setEditedCategory(undefined);
+    } else {
+      await axios.post('/api/categories', data);
+      setName(undefined);
+    }
   }
 
   function editCategory(category) {
     setEditedCategory(category);
     setName(category.name);
-    setProperties(
-      category.properties.map(({ name, values }) => ({
-        name,
-        values: values.join(',')
-      }))
-    );
+    // setProperties(
+    //   category.properties.map(({ name, values }) => ({
+    //     name,
+    //     values: values.join(',')
+    //   }))
+    // );
   }
 
   function deleteCategory(category) {
@@ -96,7 +101,6 @@ function Categories({ swal }) {
           <thead>
             <tr>
               <td>Category name</td>
-              <td>Parent Category</td>
             </tr>
           </thead>
           <tbody>
@@ -104,7 +108,6 @@ function Categories({ swal }) {
               categories.map((category) => (
                 <tr key={category._id}>
                   <td>{category.name}</td>
-                  <td>{category?.parent?.name}</td>
                   <td className="flex flex-row">
                     <button
                       onClick={() => editCategory(category)}

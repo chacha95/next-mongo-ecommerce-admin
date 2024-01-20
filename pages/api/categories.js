@@ -20,9 +20,14 @@ export default async function handle(req, res) {
   }
 
   if (method === 'PUT') {
-    const { title, description, price, images, category, _id } = req.body;
-    await Product.updateOne({ _id: _id }, { title, description, price, images, category });
-    res.json(true);
+    const { name, _id } = req.body;
+    const categoryDoc = await Category.updateOne(
+      { _id: _id },
+      {
+        name
+      }
+    );
+    res.json(categoryDoc);
   }
 
   if (method === 'DELETE') {

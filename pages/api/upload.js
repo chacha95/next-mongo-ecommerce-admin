@@ -29,7 +29,7 @@ export default async function handle(req, res) {
       newFilename: newFilename
     });
 
-    // const link = `https://${process.env.S3_BUCKET_NAME}.s3.amazonaws.com/${newFilename}`;
+    // const link = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${newFilename}`;
     links.push(presignedUrl);
   }
   return res.json({ links });
