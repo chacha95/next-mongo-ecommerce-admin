@@ -83,9 +83,7 @@ export default function ProductForm(props) {
 
   useEffect(() => {
     axios.get('/api/categories').then((result) => {
-      console.log(result.data);
       setCategories(result.data);
-      console.log(categories);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -94,7 +92,6 @@ export default function ProductForm(props) {
     <div className="w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
       <form onSubmit={saveProduct}>
         <h1 className="mb-4 text-lg text-white">New Product</h1>
-
         {/* Product name */}
         <div className="mb-2 grid items-center gap-1.5">
           <Label htmlFor="text">Product name</Label>
@@ -106,7 +103,6 @@ export default function ProductForm(props) {
             required={true}
           />
         </div>
-
         {/* Description */}
         <div className="mb-2 grid items-center gap-1.5">
           <Label htmlFor="text">Description</Label>
@@ -118,7 +114,6 @@ export default function ProductForm(props) {
             required={true}
           />
         </div>
-
         {/* Price */}
         <div className="mb-2 grid items-center gap-1.5">
           <Label htmlFor="text">Price</Label>
@@ -130,25 +125,21 @@ export default function ProductForm(props) {
             required={true}
           />
         </div>
-
         {/* Category */}
-        <div className="mb-4 gap-1.5">
-          <Label htmlFor="text">Category</Label>
-          <Select>
-            <SelectTrigger>
-              <SelectValue
-                placeholder="Uncategorized"
-                onChange={(e) => setCategory(e.target.value)}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {categories.map((c) => {
-                  <SelectItem key={uuid()}>{c.name}</SelectItem>;
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+        <div className="mb-2">
+          <label>Category</label>
+          <select
+            value={category}
+            onChange={(ev) => setCategory(ev.target.value)}
+          >
+            <option value="">Uncategorized</option>
+            {categories.length > 0 &&
+              categories.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.name}
+                </option>
+              ))}
+          </select>
         </div>
 
         {/* upload image */}
@@ -187,7 +178,6 @@ export default function ProductForm(props) {
           )}
           {!images?.length && <div>No Photos in this product</div>}
         </div>
-
         {/* Save */}
         <Button>Save</Button>
       </form>
